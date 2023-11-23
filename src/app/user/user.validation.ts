@@ -13,6 +13,12 @@ const addressValidationSchema = Joi.object({
   country: Joi.string().required(),
 });
 
+const orderValidationSchema = Joi.object({
+  productName: Joi.string(),
+  price: Joi.number(),
+  quantity: Joi.number(),
+});
+
 // Define Joi schema for the main user object
 const userValidationSchema = Joi.object({
   userId: Joi.number().integer().required(),
@@ -24,6 +30,7 @@ const userValidationSchema = Joi.object({
   isActive: Joi.boolean().required(),
   hobbies: Joi.array().items(Joi.string()),
   address: addressValidationSchema.required(),
+  order: orderValidationSchema.optional(),
 });
 
 export default userValidationSchema;

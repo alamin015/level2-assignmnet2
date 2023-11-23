@@ -11,16 +11,31 @@ const addressSchema = new Schema({
   country: String,
 });
 
-const userSchema = new Schema({
-  userId: Number,
+const orderSchema = {
+  productName: String,
+  price: Number,
+  quantity: Number,
+};
+
+const userSchema = new Schema<TUser>({
+  userId: {
+    type: Number,
+    unique: true,
+  },
   username: String,
   password: String,
   fullName: fullNameSchema,
   age: Number,
   email: String,
   isActive: Boolean,
-  hobbies: [],
+  hobbies: [String],
   address: addressSchema,
+  order: [orderSchema],
+});
+
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
 });
 
 export const UserModel = model<TUser>('User', userSchema);

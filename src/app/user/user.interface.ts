@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type fullName = {
   firstName: string;
   lastName: string;
@@ -7,6 +9,12 @@ export type address = {
   street: string;
   city: string;
   country: string;
+};
+
+export type TOrders = {
+  productName: string;
+  price: number;
+  quantity: number;
 };
 
 export type TUser = {
@@ -19,17 +27,5 @@ export type TUser = {
   isActive: boolean;
   hobbies: string[];
   address: address;
+  order?: TOrders[];
 };
-
-// orders: [
-//     {
-//       productName: string;
-//       price: number;
-//       quantity: number;
-//     },
-//     {
-//       productName: string;
-//       price: number;
-//       quantity: number;
-//     },
-//   ];
