@@ -156,6 +156,47 @@ const insertOrder = async (req: Request, res: Response) => {
   }
 };
 
+const getAllOrder = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const result = await userServices.getAllOrders(userId);
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error,
+      error: {
+        code: 500,
+        description: 'something went wrong!',
+      },
+    });
+  }
+};
+const getTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const result = await userServices.getTotalPrice(userId);
+    res.status(200).json({
+      success: true,
+      message: 'Price',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error,
+      error: {
+        code: 500,
+        description: 'something went wrong!',
+      },
+    });
+  }
+};
+
 export const userController = {
   userCreated,
   getAllUsers,
@@ -163,4 +204,6 @@ export const userController = {
   deleteUser,
   updateUser,
   insertOrder,
+  getAllOrder,
+  getTotalPrice,
 };

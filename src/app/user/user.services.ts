@@ -55,6 +55,19 @@ const insertOrderIntoDB = async (userId: number, data: TOrders) => {
   return result;
 };
 
+const getAllOrders = async (userId: number) => {
+  const result = await UserModel.aggregate([
+    { $match: { userId } },
+    { $project: { order: true } },
+  ]);
+  return result;
+};
+
+const getTotalPrice = async (userId: number) => {
+  const result = await UserModel.aggregate([{ $match: { userId } }]);
+  return result;
+};
+
 export const userServices = {
   userInsertIntoDB,
   getAllUsersFromDB,
@@ -62,4 +75,6 @@ export const userServices = {
   deleteUserFromDB,
   updateUser,
   insertOrderIntoDB,
+  getAllOrders,
+  getTotalPrice,
 };
