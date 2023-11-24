@@ -1,4 +1,3 @@
-import { TOrders } from './user.interface';
 import { Request, Response } from 'express';
 import userValidationSchema from './user.validation';
 import { userServices } from './user.services';
@@ -46,11 +45,11 @@ const userCreated = async (req: Request, res: Response) => {
       message: 'User created successfully!',
       data: result
     });
-  } catch (err: any) {
+  } catch (err) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong!',
-      error: err.message
+      error: err
     });
   }
 };
@@ -59,7 +58,6 @@ const getSpecificUser = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.userId);
     const result = await userServices.getSpecificUserFromDB(id);
-    console.log(result);
 
     if (!result) {
       res.status(500).json({
@@ -93,7 +91,7 @@ const getSpecificUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
-    console.log(req.params);
+
     await userServices.deleteUserFromDB(userId);
     res.status(200).json({
       success: true,

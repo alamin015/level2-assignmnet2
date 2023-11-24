@@ -1,5 +1,3 @@
-import { Model } from 'mongoose';
-
 export type fullName = {
   firstName: string;
   lastName: string;
