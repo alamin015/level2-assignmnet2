@@ -23,7 +23,10 @@ const userInsertIntoDB = async (data: TUser) => {
 };
 
 const getSpecificUserFromDB = async (userId: number) => {
-  const result = await UserModel.findOne({ userId }, { password: false });
+  const result = await UserModel.findOne(
+    { userId },
+    { password: false, order: false }
+  );
   return result;
 };
 
