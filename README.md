@@ -1,5 +1,9 @@
 ## Instruction
 
+### For locally run the project
+
+- command: npm run start:dev
+
 ### 1.For creating user :
 
 - Method : post
