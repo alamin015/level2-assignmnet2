@@ -13,5 +13,5 @@ router.put('/users/:userId/orders', userController.insertOrder);
 router.delete('/users/:userId', userController.deleteUser);
 
 export const userRouter = {
-  router,
+  router
 };

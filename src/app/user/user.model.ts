@@ -3,34 +3,46 @@ import { TUser } from './user.interface';
 
 const fullNameSchema = new Schema({
   firstName: String,
-  lastName: String,
+  lastName: String
 });
 const addressSchema = new Schema({
   street: String,
   city: String,
-  country: String,
+  country: String
 });
 
 const orderSchema = {
   productName: String,
   price: Number,
-  quantity: Number,
+  quantity: Number
 };
 
 const userSchema = new Schema<TUser>({
   userId: {
     type: Number,
-    unique: true,
+    unique: true
   },
-  username: String,
+  username: {
+    type: String,
+    unique: true
+  },
   password: String,
-  fullName: fullNameSchema,
+  fullName: {
+    type: fullNameSchema,
+    _id: false
+  },
   age: Number,
   email: String,
   isActive: Boolean,
   hobbies: [String],
-  address: addressSchema,
-  order: [orderSchema],
+  address: {
+    type: addressSchema,
+    _id: false
+  },
+  order: {
+    type: [orderSchema],
+    _id: false
+  }
 });
 
 userSchema.post('save', function (doc, next) {
