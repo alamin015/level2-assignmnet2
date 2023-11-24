@@ -34,7 +34,11 @@ const updateUser = async (userId: number, data: string) => {
   const result = await UserModel.findOneAndUpdate(
     { userId },
     { $set: { username: data } },
-    { new: true, runValidators: true, projection: { password: 0 } }
+    {
+      new: true,
+      runValidators: true,
+      projection: { password: 0, order: false }
+    }
   );
 
   return result;

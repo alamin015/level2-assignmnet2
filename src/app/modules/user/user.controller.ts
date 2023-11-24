@@ -92,7 +92,19 @@ const deleteUser = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
 
-    await userServices.deleteUserFromDB(userId);
+    const result = await userServices.deleteUserFromDB(userId);
+
+    if (result.deletedCount === 0) {
+      res.status(500).json({
+        success: false,
+        message: 'User not found!',
+        error: {
+          code: 500,
+          description: 'User not found!'
+        }
+      });
+      return 0;
+    }
     res.status(200).json({
       success: true,
       message: 'User deleted successfully!',
@@ -115,6 +127,19 @@ const updateUser = async (req: Request, res: Response) => {
     const userId = Number(req.params.userId);
     const data = req.body.username;
     const result = await userServices.updateUser(userId, data);
+
+    if (!result) {
+      res.status(500).json({
+        success: false,
+        message: 'User not found!',
+        error: {
+          code: 500,
+          description: 'User not found!'
+        }
+      });
+      return 0;
+    }
+
     res.status(200).json({
       success: true,
       message: 'User updated successfully!',
@@ -136,7 +161,20 @@ const insertOrder = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const data = req.body;
-    await userServices.insertOrderIntoDB(userId, data);
+    const result = await userServices.insertOrderIntoDB(userId, data);
+
+    if (!result) {
+      res.status(500).json({
+        success: false,
+        message: 'User not found!',
+        error: {
+          code: 500,
+          description: 'User not found!'
+        }
+      });
+      return 0;
+    }
+
     res.status(200).json({
       success: true,
       message: 'Order created successfully!',
@@ -158,6 +196,7 @@ const getAllOrder = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
     const result = await userServices.getAllOrders(userId);
+
     res.status(200).json({
       success: true,
       message: 'Order fetched successfully!',
