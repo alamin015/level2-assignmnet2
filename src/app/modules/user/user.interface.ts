@@ -1,3 +1,4 @@
+import { Document } from 'mongoose';
 export type fullName = {
   firstName: string;
   lastName: string;
@@ -15,7 +16,7 @@ export type TOrders = {
   quantity: number;
 };
 
-export type TUser = {
+export interface TUser extends Document {
   userId: number;
   username: string;
   password: string;
@@ -26,4 +27,4 @@ export type TUser = {
   hobbies: string[];
   address: address;
   order?: TOrders[];
-};
+}

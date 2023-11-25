@@ -19,7 +19,11 @@ const getAllUsersFromDB = async () => {
 
 const userInsertIntoDB = async (data: TUser) => {
   const result = await UserModel.create(data);
-  return result;
+  const myResult = await UserModel.findOne(
+    { _id: result._id },
+    { password: false, order: false }
+  );
+  return myResult;
 };
 
 const getSpecificUserFromDB = async (userId: number) => {
@@ -30,10 +34,10 @@ const getSpecificUserFromDB = async (userId: number) => {
   return result;
 };
 
-const updateUser = async (userId: number, data: string) => {
+const updateUser = async (userId: number, data: TUser) => {
   const result = await UserModel.findOneAndUpdate(
     { userId },
-    { $set: { username: data } },
+    { $set: data },
     {
       new: true,
       runValidators: true,

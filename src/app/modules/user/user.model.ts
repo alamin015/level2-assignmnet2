@@ -45,9 +45,4 @@ const userSchema = new Schema<TUser>({
   }
 });
 
-userSchema.post('save', function (doc, next) {
-  doc.password = '';
-  next();
-});
-
 export const UserModel = model<TUser>('User', userSchema);

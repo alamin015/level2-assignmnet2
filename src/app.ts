@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express';
+
 import cors from 'cors';
 import { userRouter } from './app/modules/user/user.route';
 

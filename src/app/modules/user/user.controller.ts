@@ -125,8 +125,20 @@ const deleteUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
-    const data = req.body.username;
-    const result = await userServices.updateUser(userId, data);
+    const data = req.body;
+    const { error, value } = userValidationSchema.validate(data);
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Validation error',
+        error: {
+          code: 500,
+          description: error.details
+        }
+      });
+      return 0;
+    }
+    const result = await userServices.updateUser(userId, value);
 
     if (!result) {
       res.status(500).json({
