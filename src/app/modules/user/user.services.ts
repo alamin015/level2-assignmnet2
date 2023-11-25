@@ -6,6 +6,7 @@ const getAllUsersFromDB = async () => {
     { $match: {} },
     {
       $project: {
+        _id: false,
         username: true,
         fullname: true,
         age: true,
@@ -34,7 +35,7 @@ const getSpecificUserFromDB = async (userId: number) => {
 
   const result = await UserModel.findOne(
     { userId },
-    { password: false, order: false }
+    { _id: false, password: false, order: false }
   );
   return result;
 };
@@ -51,7 +52,7 @@ const updateUser = async (userId: number, data: TUser) => {
     {
       new: true,
       runValidators: true,
-      projection: { password: 0, order: false }
+      projection: { _id: false, password: 0, order: false }
     }
   );
 
