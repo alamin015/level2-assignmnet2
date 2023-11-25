@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Model } from 'mongoose';
 export type fullName = {
   firstName: string;
   lastName: string;
@@ -16,7 +16,7 @@ export type TOrders = {
   quantity: number;
 };
 
-export interface TUser extends Document {
+export type TUser = {
   userId: number;
   username: string;
   password: string;
@@ -27,4 +27,8 @@ export interface TUser extends Document {
   hobbies: string[];
   address: address;
   order?: TOrders[];
+};
+
+export interface ICustom extends Model<TUser> {
+  isUserExists(id: number): Promise<TUser | null>;
 }

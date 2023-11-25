@@ -27,6 +27,11 @@ const userInsertIntoDB = async (data: TUser) => {
 };
 
 const getSpecificUserFromDB = async (userId: number) => {
+  // check user exists or not
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User Not Found');
+  }
+
   const result = await UserModel.findOne(
     { userId },
     { password: false, order: false }
@@ -35,6 +40,11 @@ const getSpecificUserFromDB = async (userId: number) => {
 };
 
 const updateUser = async (userId: number, data: TUser) => {
+  // check user exists or not
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User Not Found');
+  }
+
   const result = await UserModel.findOneAndUpdate(
     { userId },
     { $set: data },
@@ -48,11 +58,21 @@ const updateUser = async (userId: number, data: TUser) => {
   return result;
 };
 const deleteUserFromDB = async (userId: number) => {
+  // check user exists or not
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User Not Found');
+  }
   const result = await UserModel.deleteOne({ userId });
   return result;
 };
 
 const insertOrderIntoDB = async (userId: number, data: TOrders) => {
+  // check user exists or not
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User Not Found');
+  }
+
+  // order insert operation
   const result = await UserModel.findOneAndUpdate(
     { userId },
     { $push: { order: data } },
@@ -62,46 +82,41 @@ const insertOrderIntoDB = async (userId: number, data: TOrders) => {
 };
 
 const getAllOrders = async (userId: number) => {
+  // check user exists or not
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User Not Found');
+  }
+
+  // get all orders operation
   const result = await UserModel.aggregate([
     { $match: { userId } },
-    { $project: { order: true } }
+    { $project: { order: true, _id: false } }
   ]);
   return result;
 };
 
 const getTotalPrice = async (userId: number) => {
+  // check user exists or not
+  if (!(await UserModel.isUserExists(userId))) {
+    throw new Error('User Not Found');
+  }
+
+  // get Total price calculation/
+
   const result = await UserModel.aggregate([
     { $match: { userId } },
     {
-      $facet: {
-        firstStage: [
-          {
-            $unwind: '$order'
-          },
-          {
-            $group: {
-              _id: null,
-              totalPrice: {
-                $sum: { $multiply: ['$order.price', '$order.quantity'] }
-              }
-            }
-          },
-          { $project: { totalPrice: true } }
-        ],
-        secondStage: [{ $project: { username: true } }]
+      $unwind: '$order'
+    },
+    {
+      $group: {
+        _id: null,
+        totalPrice: {
+          $sum: { $multiply: ['$order.price', '$order.quantity'] }
+        }
       }
-    }
-
-    // {
-    //   $unwind: '$order'
-    // },
-    // {
-    //   $group: {
-    //     _id: null,
-    //     totalPrice: { $sum: { $multiply: ['$order.price', '$order.quantity'] } }
-    //   }
-    // },
-    // { $project: { username: true, totalPrice: true } }
+    },
+    { $project: { totalPrice: true, _id: false } }
   ]);
   return result;
 };

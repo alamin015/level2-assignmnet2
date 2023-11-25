@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TUser } from './user.interface';
+import { ICustom, TUser } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
@@ -19,7 +19,7 @@ const orderSchema = {
   quantity: Number
 };
 
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TUser, ICustom>({
   userId: {
     type: Number,
     unique: true
@@ -57,4 +57,10 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-export const UserModel = model<TUser>('User', userSchema);
+// myCustom static method
+userSchema.statics.isUserExists = async function (userId: number) {
+  const result = UserModel.findOne({ userId });
+  return result;
+};
+
+export const UserModel = model<TUser, ICustom>('User', userSchema);
