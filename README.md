@@ -52,7 +52,22 @@
 
 ```json
 {
-  "username": "Tamim Iqbal"
+  "userId": 5,
+  "username": "ujasahbb",
+  "password": "mdsffffffffffffffffs",
+  "fullName": {
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "age": 30,
+  "email": "john@example.com",
+  "isActive": "true",
+  "hobbies": ["reading", "coding"],
+  "address": {
+    "street": "123 Main St",
+    "city": "Cityville",
+    "country": "Countryland"
+  }
 }
 ```
 
